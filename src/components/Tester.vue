@@ -1,0 +1,107 @@
+<script setup>
+import { ref, defineProps, onMounted, onUnmounted } from 'vue'
+
+const props = defineProps({
+    min: Number,
+    max: Number,
+    trials: Number
+})
+
+const start_time = ref(null)
+const elapsed = ref(0)
+const correct = ref(0)
+const incorrect = ref(0)
+const total_time = ref(null)
+const already_tested = ref([])
+
+const left = ref(null)
+const right = ref(null)
+
+const theinput = ref(null)
+const msg = ref('')
+
+var timer;
+
+onMounted(() => {
+    left.value = Math.floor(Math.random() * (props.max - props.min + 1) + props.min)
+    right.value = Math.floor(Math.random() * (props.max - props.min + 1) + props.min)
+
+    timer = setInterval(() => {
+        elapsed.value = new Date() - start_time.value
+    }, 100)
+})
+
+onUnmounted(() => {
+    clearInterval(this.timer)
+})
+
+function oninput(event) {
+    if (event.key === 'Enter' && event.target.value != "") {
+        if (left.value * right.value === Number(event.target.value)) {
+            msg.value = 'Correct!'
+            correct.value++
+
+            var at = Array.from(already_tested.value, x => Array.from(x))
+            at = at.concat([[left.value, right.value]])
+
+            do {
+                left.value = Math.floor(Math.random() * (props.max - props.min + 1) + props.min)
+                right.value = Math.floor(Math.random() * (props.max - props.min + 1) + props.min)
+            } while (at.includes([left.value, right.value]))
+
+            already_tested.value = at
+
+            if (correct.value == props.trials) {
+                clearInterval(timer)
+                total_time.value = new Date() - start_time.value
+                msg.value = 'Finished!'
+            }
+        } else {
+            incorrect.value++
+            msg.value = 'Try again!'
+        }
+
+        if (start_time.value == null) {
+            start_time.value = new Date()
+        }
+
+        event.target.value = ""
+    }
+}
+
+</script>
+
+<template>
+    <w-card
+    title="Times Tables"
+    color="indigo-dark6"
+    class="sh6"
+    >
+        <w-flex column>
+            <w-flex v-if="total_time == null">
+                <div>{{ left }} x {{ right }} = </div>
+                <w-input
+                v-model="theinput"
+                @keydown="oninput"
+                color="indigo-dark6"
+                />
+            </w-flex>
+            <br>
+            <w-flex>
+                {{ msg }}
+            </w-flex>
+            <br>
+            <w-flex v-if="start_time != null">
+                <div>{{ correct }}/{{ props.trials }}</div>
+                <div v-if="total_time != null">, took {{ Math.round(elapsed / 1000) }} s</div>
+            </w-flex>
+        </w-flex>
+    </w-card>
+
+  <div class="card">
+    
+  </div>
+
+</template>
+
+<style scoped></style>
