@@ -76,7 +76,7 @@ function oninput(event) {
     title="Times Tables"
     color="indigo-dark6"
     class="sh6"
-    style="transform:scale(3);transform-origin: top;"
+    style="transform:scale(1.5);transform-origin: top;"
     >
         <w-flex column>
             <w-flex v-if="total_time == null">

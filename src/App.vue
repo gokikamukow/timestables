@@ -5,8 +5,8 @@ import Tester from './components/Tester.vue'
 <template>
   <Tester
   :min="1"
-  :max="10"
-  :trials="10"/>
+  :max="12"
+  :trials="20"/>
 </template>
 
 <style scoped>
