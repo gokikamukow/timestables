@@ -85,6 +85,7 @@ function oninput(event) {
                 v-model="theinput"
                 @keydown="oninput"
                 color="indigo-dark6"
+                type="number"
                 />
             </w-flex>
             <br>
