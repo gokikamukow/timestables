@@ -20,19 +20,19 @@ const right = ref(null)
 const theinput = ref(null)
 const msg = ref('')
 
-var timer;
+const timer = ref(null);
 
 onMounted(() => {
     left.value = Math.floor(Math.random() * (props.max - props.min + 1) + props.min)
     right.value = Math.floor(Math.random() * (props.max - props.min + 1) + props.min)
 
-    timer = setInterval(() => {
+    timer.value = setInterval(() => {
         elapsed.value = new Date() - start_time.value
     }, 100)
 })
 
 onUnmounted(() => {
-    clearInterval(this.timer)
+    clearInterval(timer.value)
 })
 
 function oninput(event) {
@@ -52,7 +52,7 @@ function oninput(event) {
             already_tested.value = at
 
             if (correct.value == props.trials) {
-                clearInterval(timer)
+                clearInterval(timer.value)
                 total_time.value = new Date() - start_time.value
                 msg.value = 'Finished!'
             }
