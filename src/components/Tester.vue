@@ -67,8 +67,7 @@ function oninput(event) {
             at = at.concat([[left.value, right.value]])
 
             do {
-                left.value = Math.floor(Math.random() * (props.max - props.min + 1) + props.min)
-                right.value = Math.floor(Math.random() * (props.max - props.min + 1) + props.min)
+                makeNewProblem()
             } while (at.includes([left.value, right.value]))
 
             already_tested.value = at
