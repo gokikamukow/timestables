@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, onMounted, onUnmounted } from 'vue'
+import { ref, defineProps, defineEmits, onMounted, onUnmounted, watch } from 'vue'
 
 const props = defineProps({
     min: Number,
@@ -22,16 +22,34 @@ const msg = ref('')
 
 const timer = ref(null);
 
-onMounted(() => {
-    left.value = Math.floor(Math.random() * (props.max - props.min + 1) + props.min)
-    right.value = Math.floor(Math.random() * (props.max - props.min + 1) + props.min)
+function makeNewProblem() {
+    const unconstrainedMax = 12
+    const constrained = Math.floor(Math.random() * (props.max - props.min + 1) + props.min)
+    const unconstrained = Math.floor(Math.random() * unconstrainedMax + 1)
 
+    if (Math.random() > 0.5) {
+        [left.value, right.value] = [constrained, unconstrained]
+    } else {
+        [left.value, right.value] = [unconstrained, constrained]
+    }
+}
+
+onMounted(() => {
     timer.value = setInterval(() => {
         elapsed.value = new Date() - start_time.value
     }, 100)
 })
 
+watch(() => [props.min, props.max, props.trials], () => {
+    makeNewProblem()
+    start_time.value = null;
+    correct.value = 0;
+    incorrect.value = 0;
+    already_tested.value = [];
+})
+
 onUnmounted(() => {
+    makeNewProblem()
     clearInterval(timer.value)
 })
 
@@ -68,6 +86,8 @@ function oninput(event) {
         event.target.value = ""
     }
 }
+
+
 
 </script>
 
