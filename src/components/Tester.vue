@@ -35,6 +35,7 @@ function makeNewProblem() {
 }
 
 onMounted(() => {
+    makeNewProblem()
     timer.value = setInterval(() => {
         elapsed.value = new Date() - start_time.value
     }, 100)
@@ -48,8 +49,7 @@ watch(() => [props.min, props.max, props.trials], () => {
     already_tested.value = [];
 })
 
-onUnmounted(() => {
-    makeNewProblem()
+onUnmounted(() => {    
     clearInterval(timer.value)
 })
 
