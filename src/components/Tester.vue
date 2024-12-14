@@ -41,12 +41,16 @@ onMounted(() => {
     }, 100)
 })
 
-watch(() => [props.min, props.max, props.trials], () => {
+function restart() {
     makeNewProblem()
     start_time.value = null;
     correct.value = 0;
     incorrect.value = 0;
     already_tested.value = [];
+}
+
+watch(() => [props.min, props.max, props.trials], () => {
+    restart()
 })
 
 onUnmounted(() => {    
@@ -92,6 +96,10 @@ function oninput(event) {
 </script>
 
 <template>
+    <w-button
+        @click="restart">
+    Restart
+    </w-button>
     <w-card
     title="Times Tables"
     color="indigo-dark6"
