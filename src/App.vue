@@ -6,6 +6,8 @@ const min = ref(1);
 const max = ref(12);
 const trials = ref(20);
 
+const openDrawer = ref(false);
+
 onMounted(() => {
   const search_params = new URLSearchParams(window.location.search)
   if (search_params.has('min')) {
@@ -21,10 +23,42 @@ onMounted(() => {
 </script>
 
 <template>
+  <w-button
+    @click="openDrawer = true"
+  >
+    Setup
+  </w-button>
+
   <Tester
   :min="min"
   :max="max"
   :trials="trials"/>
+
+  <w-drawer
+    v-model="openDrawer"
+    bottom
+    height="100px"
+  >
+    <w-flex column>
+      <w-flex justify-start>
+        <w-input
+          v-model="min"
+          label="Min"
+          label-position="left"
+          type="number"/>
+        <w-input
+          label="Max"
+          label-position="left"
+          v-model="max"
+          type="number"/>
+        <w-input
+          label="Trials"
+          label-position="left"
+          v-model="trials"
+          type="number"/>
+      </w-flex>
+    </w-flex>
+  </w-drawer>
 </template>
 
 <style scoped>
