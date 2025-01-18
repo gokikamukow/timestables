@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useStorage } from '@vueuse/core'
 import Tester from './components/Tester.vue';
 
-const min = ref(1);
-const max = ref(12);
-const trials = ref(20);
+const min = useStorage('min', 1);
+const max = useStorage('max', 12);
+const trials = useStorage('trials', 20);
 
 const openDrawer = ref(false);
 

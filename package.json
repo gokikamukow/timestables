@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vueuse/core": "^12.4.0",
     "vue": "^3.4.19",
     "wave-ui": "^3.11.0"
   },
